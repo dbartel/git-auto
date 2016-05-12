@@ -4,12 +4,8 @@ GIT_DIR="."
 
 pushd $GIT_DIR
 git diff-files --quiet
-if [[ $? == 0 ]]
+if [[ $? != 0 ]]
 then
-    echo "Dirty"
-else
-    echo "Nothing to do"
+    git commit -a -m "`date` auto-commit"
 fi
-
-
 
