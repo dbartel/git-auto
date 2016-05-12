@@ -12,7 +12,7 @@ if [[ $? != 0 ]]
 then
     git commit -a -m "`date` auto-commit"
     # Push branch
-    if [ `git branch --list origin/master`]
+    if [ `git branch --list --remote origin/master`]
     then
         git push origin master
     fi
