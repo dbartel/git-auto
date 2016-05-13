@@ -5,13 +5,13 @@
 
 # Sync files with remote
 sync_files() {
-    git checkout $BRANCH
-    git add .
-    git commit -m "`date` auto-committed by $USER"
+    git checkout $BRANCH &> /dev/null
+    git add . &> /dev/null
+    git commit -m "`date` auto-committed by $USER" &> /dev/null
     # Push branch
     if [[ $REMOTE ]]
     then
-        git push origin $BRANCH > /dev/null
+        git push origin $BRANCH >& /dev/null
     fi  
 }
 
@@ -33,7 +33,7 @@ git diff-files --quiet
 CHANGED_FILES=$?
 
 # Check if new files
-git ls-files --other --directory --exclude-standard | sed q1 > /dev/null
+git ls-files --other --directory --exclude-standard | sed q1 >& /dev/null
 NEW_FILES=$?
 
 echo $CHANGED_FILES
