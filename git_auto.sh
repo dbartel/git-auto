@@ -11,7 +11,7 @@ sync_files() {
     # Push branch
     if [[ $REMOTE ]]
     then
-        git push origin $BRANCH
+        git push origin $BRANCH > /dev/null
     fi  
 }
 
