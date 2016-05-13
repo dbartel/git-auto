@@ -3,6 +3,17 @@
 # Checks if changes to a repository exist, commits them, and pushes them to a remote
 # Use with cron for a primitive file sync
 
+# pushd without outptu
+pushd () {
+    command pushd "$@" > /dev/null
+}
+
+# popd pushd
+popd () {
+    command popd "$@" > /dev/null
+}
+
+
 # Sync files with remote
 sync_files() {
     git checkout $BRANCH &> /dev/null
@@ -30,14 +41,11 @@ pushd $REPO_DIR
 
 # Check if files have changed
 git diff-files --quiet
-CHANGED_FILES=$?
+CHANGED_FILES=$? 
 
 # Check if new files
 git ls-files --other --directory --exclude-standard | sed q1 >& /dev/null
 NEW_FILES=$?
-
-echo $CHANGED_FILES
-echo $NEW_FILES
 
 #Sync if necessary
 if [[ $CHANGED_FILES || $NEW_FILES ]]
@@ -45,6 +53,6 @@ then
     sync_files
 fi
 
-popd
+popd >& /dev/null
 exit 0
 
