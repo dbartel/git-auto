@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Checks if changes exist, commits them, and pushes them to a remote
+# Checks if changes to a repository exist, commits them, and pushes them to a remote
 # Use with cron for a primitive file sync
 
 # Sync files with remote
@@ -26,9 +26,17 @@ pushd $REPO_DIR
 
 # Check if files have changed
 git diff-files --quiet
+CHANGED_FILES=$?
+
+# Check if new files
+git ls-files --other --directory --exclude-standard | sed q1 > /dev/null
+NEW_FILES=$?
+
+echo $CHANGED_FILES
+echo $NEW_FILES
 
 #Sync if necessary
-if [[ $? != 0 ]]
+if [[ $CHANGED_FILES || $NEW_FILES ]]
 then
     sync_files
 fi
