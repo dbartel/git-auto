@@ -9,7 +9,7 @@ sync_files() {
     git add .
     git commit -m "`date` auto-committed by $USER"
     # Push branch
-    if [ `git branch --list --remote origin/$BRANCH` ]
+    if [[ $REMOTE ]]
     then
         git push origin $BRANCH
     fi  
@@ -18,8 +18,12 @@ sync_files() {
 # Repo to clone
 REPO_DIR=$1
 
+# Remote we're syncing to
+REMOTE=$2
+
 # Branch we're syncing
-BRANCH=$2
+BRANCH=$3
+
 
 # Go to our dir
 pushd $REPO_DIR
