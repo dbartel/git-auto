@@ -5,11 +5,13 @@
 
 # Sync files with remote
 sync_files() {
-    git commit -a -m "`date` auto-commit"
+    git checkout $BRANCH
+    git add .
+    git commit -m "`date` auto-committed by $USER"
     # Push branch
     if [ `git branch --list --remote origin/$BRANCH` ]
     then
-        git push origin master
+        git push origin $BRANCH
     fi  
 }
 
