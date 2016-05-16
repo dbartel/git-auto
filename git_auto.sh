@@ -3,7 +3,7 @@
 # Checks if changes to a repository exist, commits them, and pushes them to a remote
 # Use with cron for a primitive file sync
 
-# pushd without outptu
+# pushd without output
 pushd () {
     command pushd "$@" > /dev/null
 }
@@ -19,11 +19,17 @@ sync_files() {
     git checkout $BRANCH &> /dev/null
     git add . &> /dev/null
     git commit -m "`date` auto-committed by $USER" &> /dev/null
+
+    git fetch $BRANCH &> /dev/null
+
+    # Take my changes because I'm selfish
+    git merge -X ours $REMOTE/$BRANCH &> /dev/null
+
     # Push branch
     if [[ $REMOTE ]]
     then
         git push origin $BRANCH >& /dev/null
-    fi  
+    fi
 }
 
 # Repo to clone
